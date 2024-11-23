@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 
-def apply_grid_overlay(image_path, output_path, step=500):
+def apply_grid_overlay(image_path, output_path, step=50):
     """
     Applies a grid overlay with labeled coordinates to an image.
 
@@ -9,25 +9,34 @@ def apply_grid_overlay(image_path, output_path, step=500):
         output_path (str): Path to save the image with the grid overlay.
         step (int): The step size for both vertical and horizontal grid lines (in pixels).
     """
+    # Open and make a copy of the image to avoid modifying the original
     img = Image.open(image_path)
-    draw = ImageDraw.Draw(img)
+    overlay_img = img.copy()
+    draw = ImageDraw.Draw(overlay_img)
     width, height = img.size
 
-    # Load a font for the labels (uses a default PIL font or fallback)
+    # Load a font for the labels
     try:
-        font = ImageFont.truetype("arial.ttf", 72)
+        font = ImageFont.truetype("arial.ttf", 28)  # Smaller font for denser grid
     except IOError:
         font = ImageFont.load_default()
 
     # Draw vertical grid lines and X-axis labels
-    for x in range(0, width, step):
-        draw.line((x, 0, x, height), fill="gray", width=2)
-        draw.text((x + 5, 5), f"{x}", fill="white", font=font)
+    for i, x in enumerate(range(0, width, step)):
+        # Alternate between red and white for better visibility
+        line_color = "white" if i % 2 == 0 else "red"
+        draw.line((x, 0, x, height), fill=line_color, width=1)
+        if x % 50 == 0:  # Show labels every 50 pixels
+            draw.text((x + 2, 2), f"{x}", fill=line_color, font=font)
 
     # Draw horizontal grid lines and Y-axis labels
-    for y in range(0, height, step):
-        draw.line((0, y, width, y), fill="gray", width=2)
-        draw.text((5, y + 5), f"{y}", fill="white", font=font)
+    for i, y in enumerate(range(0, height, step)):
+        # Alternate between red and white for better visibility
+        line_color = "white" if i % 2 == 0 else "red"
+        draw.line((0, y, width, y), fill=line_color, width=1)
+        if y % 50 == 0:  # Show labels every 50 pixels
+            draw.text((2, y + 2), f"{y}", fill=line_color, font=font)
 
     # Save the modified image
-    img.save(output_path)
+    overlay_img.save(output_path)
+    img.close()  # Close the original image
