@@ -270,24 +270,37 @@ class ZeusTerminal:
             with open(screenshot_path, "rb") as image_file:
                 image_data = base64.b64encode(image_file.read()).decode("utf-8")
 
+            # Fetch task history
+            try:
+                response = supabase.table('tasks').select('*').order('created_at', desc=True).limit(10).execute()
+                task_history = response.data
+                task_history_str = "\nTask History:\n"
+                for task in task_history:
+                    task_history_str += f"- {task['title']} (Status: {task['status']})\n"
+            except Exception as e:
+                task_history_str = "\nTask History: Unable to fetch task history\n"
+                self.log_action(f"Failed to fetch task history: {str(e)}")
+
             # Create the system prompt
-            system_prompt = """You are a GUI automation assistant. You will receive a screenshot with a coordinate grid overlay and instructions. 
+            system_prompt = f"""You are a GUI automation assistant. You will receive a screenshot with a coordinate grid overlay and instructions. 
                 Return ONLY JSON following this schema:
-                {
+                {{
                     "actions": [
-                        {"action": "mouse_move", "x": 100, "y": 200},
-                        {"action": "mouse_click"},
-                        {"action": "type_text", "text": "Hello, World!"},
-                        {"action": "keydown", "key": "ctrl"},  // For holding down a key
-                        {"action": "press_key", "key": "c"},   // For single key press
-                        {"action": "keyup", "key": "ctrl"}     // For releasing a held key
+                        {{"action": "mouse_move", "x": 100, "y": 200}},
+                        {{"action": "mouse_click"}},
+                        {{"action": "type_text", "text": "Hello, World!"}},
+                        {{"action": "keydown", "key": "ctrl"}},  // For holding down a key
+                        {{"action": "press_key", "key": "c"}},   // For single key press
+                        {{"action": "keyup", "key": "ctrl"}}     // For releasing a held key
                     ]
-                }
+                }}
                 Reference the screenshot grid for coordinates.
                 Be precise with coordinates based on the grid overlay.
                 Refer to the screenshot for exact coordinates, and make judgements based off of the grid reference.
                 The coordinates and relative lines are black and white for clear visibility, look at them and identify what you are trying to locate, and use the lines to determine the coordinates. 
                 The user is on a Windows 11 computer with a single screen.
+
+                {task_history_str}
                 """
 
             # Make the API call to Claude with correct system parameter
