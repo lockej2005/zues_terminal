@@ -6,6 +6,7 @@ import mss
 import json
 from openai import OpenAI
 from imgur_upload import upload_to_imgur  # Import the Imgur upload function
+from overlay import apply_grid_overlay  # Import the grid overlay function
 
 # Initialize OpenAI client
 client = OpenAI(api_key="sk-proj-5MN52DibgpFgQfMKAJiVT3BlbkFJktsJW2uQhIuIGvE24viw")  # Replace with your OpenAI API key
@@ -63,15 +64,22 @@ class ZeusTerminal:
         self.log_text.config(state="disabled")
         self.log_text.see("end")
 
-    def take_screenshot(self):
-        """Capture a screenshot of the entire display."""
+    def take_screenshot_with_grid(self):
+        """Capture a screenshot of the entire display and overlay a grid with labeled coordinates."""
         with mss.mss() as sct:
-            screenshot_path = "current_screen.png"
-            sct.shot(mon=-1, output=screenshot_path)
-            return screenshot_path
+            raw_screenshot_path = "raw_screenshot.png"
+            screenshot_with_grid_path = "screenshot_with_grid.png"
+
+            # Capture a raw screenshot
+            sct.shot(mon=-1, output=raw_screenshot_path)
+
+            # Apply the grid overlay to the screenshot
+            apply_grid_overlay(raw_screenshot_path, screenshot_with_grid_path, step=500)
+
+            return screenshot_with_grid_path
 
     def display_screenshot(self, screenshot_path):
-        """Display the screenshot in the picture section with a coordinate grid."""
+        """Display the screenshot in the picture section."""
         img = Image.open(screenshot_path)
         img_resized = img.resize((1120, 300))
         img_tk = ImageTk.PhotoImage(img_resized)
@@ -80,16 +88,6 @@ class ZeusTerminal:
         self.picture_frame.create_image(20, 20, anchor="nw", image=img_tk)
         self.picture_frame.image = img_tk
 
-        # Draw a coordinate grid over the image
-        step_x = 50
-        step_y = 50
-        for x in range(0, 1121, step_x):
-            self.picture_frame.create_line(x, 0, x, 300, fill="gray", dash=(2, 2))
-            self.picture_frame.create_text(x + 5, 10, text=f"{x}", fill="white", anchor="nw", font=("Consolas", 8))
-        for y in range(0, 301, step_y):
-            self.picture_frame.create_line(0, y, 1120, y, fill="gray", dash=(2, 2))
-            self.picture_frame.create_text(5, y + 5, text=f"{y}", fill="white", anchor="nw", font=("Consolas", 8))
-
     def handle_request(self):
         """Send user input and screenshot to ChatGPT, and process the response."""
         user_input = self.input_text.get("1.0", "end").strip()
@@ -97,8 +95,8 @@ class ZeusTerminal:
             messagebox.showerror("Error", "Please enter a request.")
             return
 
-        # Take a screenshot
-        screenshot_path = self.take_screenshot()
+        # Take a screenshot with the grid overlay
+        screenshot_path = self.take_screenshot_with_grid()
         self.display_screenshot(screenshot_path)
 
         # Upload the screenshot to Imgur
@@ -138,6 +136,8 @@ class ZeusTerminal:
                         "content": f"You are a helpful assistant that generates a strict JSON object for GUI automation. "
                                    f"Follow this schema:\n\n{json_schema}\n\n"
                                    f"Always return a JSON object named 'actions'. Do not include text outside the JSON."
+                                   f"You will be given a screenshot of what the user sees. Use this as a direct reference as to what the user wants you to do and how you can achieve it. On top of the screenshot, there will be a coordinates reference that will help you estimate the coordinates of where you want to click."
+                                   f"The max y axis is 1000 and the max x axis is 4000. There are two screens in the screenshot."
                     },
                     {
                         "role": "user",
@@ -152,7 +152,7 @@ class ZeusTerminal:
                 raise ValueError("ChatGPT returned an empty response.")
 
             # Strip backticks and parse JSON
-            chat_gpt_response = chat_gpt_response.strip("```").strip()
+            chat_gpt_response = chat_gpt_response.strip("").strip()
             self.log_action(f"ChatGPT Response:\n{chat_gpt_response}")
 
             # Process the JSON response
@@ -206,6 +206,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = ZeusTerminal(root)
     root.mainloop()
-
-
-# possibly add current mouse location in the request to chat gpt, or log last location when iterative request
