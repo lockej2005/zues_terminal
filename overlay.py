@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 
-def apply_grid_overlay(image_path, output_path, step=50):
+def apply_grid_overlay(image_path, output_path, step=75):
     """
     Applies a grid overlay with labeled coordinates to an image.
 
@@ -17,7 +17,7 @@ def apply_grid_overlay(image_path, output_path, step=50):
 
     # Load a font for the labels
     try:
-        font = ImageFont.truetype("arial.ttf", 28)  # Smaller font for denser grid
+        font = ImageFont.truetype("arial.ttf", 30)  # Smaller font for denser grid
     except IOError:
         font = ImageFont.load_default()
 
@@ -26,7 +26,7 @@ def apply_grid_overlay(image_path, output_path, step=50):
         # Alternate between red and white for better visibility
         line_color = "white" if i % 2 == 0 else "red"
         draw.line((x, 0, x, height), fill=line_color, width=1)
-        if x % 50 == 0:  # Show labels every 50 pixels
+        if x % 75 == 0:  # Show labels every 75 pixels
             draw.text((x + 2, 2), f"{x}", fill=line_color, font=font)
 
     # Draw horizontal grid lines and Y-axis labels
@@ -34,7 +34,7 @@ def apply_grid_overlay(image_path, output_path, step=50):
         # Alternate between red and white for better visibility
         line_color = "white" if i % 2 == 0 else "red"
         draw.line((0, y, width, y), fill=line_color, width=1)
-        if y % 50 == 0:  # Show labels every 50 pixels
+        if y % 75 == 0:  # Show labels every 75 pixels
             draw.text((2, y + 2), f"{y}", fill=line_color, font=font)
 
     # Save the modified image

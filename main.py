@@ -283,9 +283,10 @@ class ZeusTerminal:
                 Reference the screenshot grid for coordinates.
                 Be precise with coordinates based on the grid overlay.
                 Refer to the screenshot for exact coordinates, and make judgements based off of the grid reference.
-                The coordinates and relative lines are red, look at them and identify what you are trying to locate, and use the lines to determine the coordinates. 
+                The coordinates and relative lines are black and white for clear visibility, look at them and identify what you are trying to locate, and use the lines to determine the coordinates. 
+                The user is on a Windows 11 computer with a single screen. When they ask you to do things, you have to make appropriate assumptions based off of screenshots on how to complete the task, consider the enviroment and what a person using a laptop would do (i.e. most of their applications are either in the task bar and can be found through searching in the windows search).
+                Before clicking anything, make direct reference to the coordinates to know where to click exactly.
                 Do not include any explanatory text outside the JSON. 
-                The user is on a Windows 11 computer with a single screen. When they ask you to do things, you have to make appropriate assumptions based off of screenshots on how to complete the task, consider the enviroment and what a person using a laptop would do (i.e. most of their applications are either in the task bar and can be found through searching in the windows search)
                 """
 
             # Make the API call to Claude with correct system parameter
@@ -329,7 +330,7 @@ class ZeusTerminal:
             sct.shot(mon=-1, output=screenshot_path)
             
             # Apply the grid overlay to the same file
-            apply_grid_overlay(screenshot_path, screenshot_path, step=50)
+            apply_grid_overlay(screenshot_path, screenshot_path, step=75)
             
             return screenshot_path
 
