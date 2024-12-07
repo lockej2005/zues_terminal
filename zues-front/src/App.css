@@ -1,0 +1,358 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  line-height: 1.5;
+  color: #37352f;
+  background-color: #ffffff;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  margin-bottom: 32px;
+  padding-top: 20px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #37352f;
+}
+
+/* New Task Form */
+.new-task-form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 8px;
+}
+
+.new-task-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #37352f;
+}
+
+.new-task-input:focus {
+  outline: none;
+  background-color: #f7f6f3;
+}
+
+.add-task-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #a3a29e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-task-button:hover {
+  color: #37352f;
+}
+
+/* Tasks List */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.task-item {
+  border-radius: 4px;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  gap: 4px;
+}
+
+.task-header:hover {
+  background-color: #f7f6f3;
+}
+
+/* Expand Button */
+.expand-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #a3a29e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-button:hover {
+  color: #37352f;
+}
+
+/* Checkbox styles */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  border: 2px solid #a3a29e;
+  border-radius: 2px;
+}
+
+.checkbox-container:hover .checkmark {
+  border-color: #37352f;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #2eaadc;
+  border-color: #2eaadc;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Task Title */
+.task-title {
+  font-size: 14px;
+  color: #37352f;
+  flex: 1;
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+  color: #a3a29e;
+}
+
+/* Task Details */
+.task-details {
+  margin-left: 44px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.task-description {
+  margin-bottom: 8px;
+}
+
+.agent-message {
+  background-color: #f7f6f3;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.task-metadata {
+  font-size: 12px;
+  color: #a3a29e;
+  margin-top: 8px;
+}
+
+/* Loading State */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+  color: #2eaadc;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error Message */
+.error-message {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Add these styles to your existing App.css */
+
+/* Add these updated styles to your existing App.css */
+
+.task-image-container {
+  margin: 12px 0;
+  position: relative;
+  max-width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #f7f6f3;
+  cursor: pointer;
+}
+
+.task-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: opacity 0.3s ease;
+}
+
+.task-image:hover {
+  opacity: 0.9;
+}
+
+/* Image Modal */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: 20px;
+  position: relative;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Image loading states */
+.image-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.image-loader .loader {
+  color: #2eaadc;
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.task-image {
+  animation: fadeIn 0.3s ease;
+}
+
+.image-modal {
+  animation: fadeIn 0.2s ease;
+}
+
+/* Keep other existing styles */
+
+.mic-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #a3a29e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.mic-button:hover {
+  color: #37352f;
+}
+
+.mic-button.listening {
+  color: #2eaadc;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}

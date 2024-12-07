@@ -1,0 +1,9 @@
+pyautogui==0.9.54
+mss==9.0.1
+Pillow==10.1.0
+httpx==0.16.1
+supabase-py==0.0.2
+anthropic==0.3.0
+pyobjc-core==9.2  # For Mac support
+pyobjc-framework-Quartz==9.2  # For Mac support
+pyobjc-framework-ApplicationServices==9.2  # For Mac support

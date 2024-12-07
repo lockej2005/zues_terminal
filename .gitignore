@@ -1,0 +1,104 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Virtual Environment - complete directory and binaries
+venv/
+*venv/
+.venv/
+**/venv/
+**/*venv*/
+*.so
+*.dylib
+*.cpython-*
+*.json
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Environment variables
+.env
+.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build and distribution files
+/build
+/dist
+build/
+dist/
+*.egg-info/
+
+# Generated files and images
+screenshot_with_grid.png
+raw_screenshot.png
+current_screen.png
+test_screenshot*.png
+*.png
+saved_screenshots/
+screenshots/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+**/.DS_Store
+.chrome/
+
+# Logs and debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+log/
+
+# Testing and coverage
+/coverage
+.coverage
+htmlcov/
+
+# React specific
+.eslintcache
+.next/
+.cache/
+.npm/
+
+# Python specific library files
+*.pyd
+.Python
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+
+# Supabase
+.supabase/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
