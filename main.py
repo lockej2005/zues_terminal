@@ -12,10 +12,17 @@ from supabase import create_client, Client
 import threading
 import time
 
+def get_base64_encoded_image(image_path):
+    with open(image_path, "rb") as image_file:
+        binary_data = image_file.read()
+        base_64_encoded_data = base64.b64encode(binary_data)
+        base64_string = base_64_encoded_data.decode('utf-8')
+        return base64_string
+
 # Initialize clients
 anthropic = Anthropic(api_key="claude key")
 supabase: Client = create_client(
-    "supabase url",
+    "supabase_url",
     "anon key"
 )
 
@@ -317,7 +324,7 @@ class ZeusTerminal:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/png",
-                                    "data": "../Image_1.png"
+                                    "data": get_base64_encoded_image("Image_1.png")
                                 }
                             },
                             {
@@ -330,7 +337,7 @@ class ZeusTerminal:
                         "role": 'assistant',
                         "content": [
                             {"type": "text", "text": '''
-                            \{{
+                            {{
                                 "actions": [
                                 {{"action": "mouse_move", "x": 2710, "y": 2062}},
                                 {{"action": "mouse_click"}}
@@ -347,7 +354,7 @@ class ZeusTerminal:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/png",
-                                    "data": "../Image_2.png"
+                                    "data": get_base64_encoded_image("Image_2.png")
                                 }
                             },
                             {
@@ -360,7 +367,7 @@ class ZeusTerminal:
                         "role": 'assistant',
                         "content": [
                             {"type": "text", "text": '''
-                            \{{
+                            {{
                                 "actions": [
                                 {{"action": "mouse_move", "x": 2710, "y": 2062}},
                                 {{"action": "mouse_click"}}
@@ -377,7 +384,7 @@ class ZeusTerminal:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/png",
-                                    "data": "../Image_3.png"
+                                    "data": get_base64_encoded_image("Image_3.png")
                                 }
                             },
                             {
@@ -390,7 +397,7 @@ class ZeusTerminal:
                         "role": 'assistant',
                         "content": [
                             {"type": "text", "text": '''
-                            \{{
+                            {{
                                 "actions": [
                                 {{"action": "mouse_move", "x": 2710, "y": 2062}},
                                 {{"action": "mouse_click"}}
