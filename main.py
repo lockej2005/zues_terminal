@@ -13,10 +13,10 @@ import threading
 import time
 
 # Initialize clients
-anthropic = Anthropic(api_key="claudekey")
+anthropic = Anthropic(api_key="claude key")
 supabase: Client = create_client(
-    "supabasekey",
-    "anonkey"
+    "supabase url",
+    "anon key"
 )
 
 class ZeusTerminal:
@@ -298,7 +298,7 @@ class ZeusTerminal:
                 Be precise with coordinates based on the grid overlay.
                 Refer to the screenshot for exact coordinates, and make judgements based off of the grid reference.
                 The coordinates and relative lines are black and white for clear visibility, look at them and identify what you are trying to locate, and use the lines to determine the coordinates. 
-                The user is on a Windows 11 computer with a single screen.
+                The user is on a MacOS computer with a single screen.
 
                 {task_history_str}
                 """
@@ -309,6 +309,96 @@ class ZeusTerminal:
                 max_tokens=1024,
                 system=system_prompt,
                 messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": "../Image_1.png"
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": f"Instructions: Open my notion app in the bottom panel"
+                            }
+                        ]
+                    },
+                    {
+                        "role": 'assistant',
+                        "content": [
+                            {"type": "text", "text": '''
+                            \{{
+                                "actions": [
+                                {{"action": "mouse_move", "x": 2710, "y": 2062}},
+                                {{"action": "mouse_click"}}
+                                ]
+                            }}
+                            '''}
+                        ]
+                    },
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": "../Image_2.png"
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": f"Instructions: Open my notion app in the bottom panel"
+                            }
+                        ]
+                    },
+                    {
+                        "role": 'assistant',
+                        "content": [
+                            {"type": "text", "text": '''
+                            \{{
+                                "actions": [
+                                {{"action": "mouse_move", "x": 2710, "y": 2062}},
+                                {{"action": "mouse_click"}}
+                                ]
+                            }}
+                            '''}
+                        ]
+                    },
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": "../Image_3.png"
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": f"Instructions: Open my notion app in the bottom panel"
+                            }
+                        ]
+                    },
+                    {
+                        "role": 'assistant',
+                        "content": [
+                            {"type": "text", "text": '''
+                            \{{
+                                "actions": [
+                                {{"action": "mouse_move", "x": 2710, "y": 2062}},
+                                {{"action": "mouse_click"}}
+                                ]
+                            }}
+                            '''}
+                        ]
+                    },
                     {
                         "role": "user",
                         "content": [
